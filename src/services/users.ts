@@ -4,6 +4,23 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 export const registerUser = async (username: string, password: string, email: string) => {
+	// Проверка уникальности имени пользователя и электронной почты перед созданием
+	const existingUser = await prisma.user.findFirst({
+		where: {
+			OR: [{ username }, { email }],
+		},
+	});
+
+	if (existingUser) {
+		if (existingUser.username === username) {
+			throw new Error("Username is already taken.");
+		}
+		if (existingUser.email === email) {
+			throw new Error("Email is already registered.");
+		}
+	}
+
+	// Хэширование пароля
 	const hashedPassword = await bcrypt.hash(password, 10);
 
 	return await prisma.user.create({
