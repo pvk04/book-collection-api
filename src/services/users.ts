@@ -27,6 +27,9 @@ export const loginUser = async (username: string, password: string) => {
 };
 
 export const updateUserRole = async (id: number, role: number) => {
+	const user = await prisma.user.findUnique({ where: { id } });
+	if (!user) throw new Error("User not found");
+
 	return await prisma.user.update({
 		where: { id },
 		data: { role },
@@ -34,5 +37,8 @@ export const updateUserRole = async (id: number, role: number) => {
 };
 
 export const getCurrentUser = async (id: number) => {
+	const user = await prisma.user.findUnique({ where: { id } });
+	if (!user) throw new Error("User not found");
+
 	return await prisma.user.findUnique({ where: { id } });
 };
