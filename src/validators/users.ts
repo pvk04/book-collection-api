@@ -11,4 +11,4 @@ export const loginUserValidator = [
 	body("password").notEmpty().withMessage("Password is required"),
 ];
 
-export const updateUserRoleValidator = [body("role").isInt({ min: 1 }).withMessage("Role is required and must be an integer")];
+export const updateUserRoleValidator = [body("role").isInt({ min: 1, max: 2 }).withMessage("Role is required and must be an integer")];
