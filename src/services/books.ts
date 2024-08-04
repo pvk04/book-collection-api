@@ -58,8 +58,15 @@ export const updateBook = async (
 };
 
 export const deleteBook = async (id: number) => {
-	const book = await prisma.book.delete({
+	const book = await prisma.book.findUnique({
 		where: { id },
 	});
-	return book;
+
+	if (!book) {
+		throw Error("Book not found");
+	}
+
+	return await prisma.book.delete({
+		where: { id },
+	});
 };

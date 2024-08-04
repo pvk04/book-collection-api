@@ -38,13 +38,9 @@ export const getBookById = async (req: Request, res: Response) => {
 export const updateBook = async (req: Request, res: Response) => {
 	try {
 		const book = await bookService.updateBook(Number(req.params.id), req.body);
-		if (!book) {
-			return res.status(404).json({ error: "Book not found" });
-		}
 		res.json(book);
 	} catch (error) {
 		const err = error as Error;
-
 		res.status(500).json({ error: err.message });
 	}
 };

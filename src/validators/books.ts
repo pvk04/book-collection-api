@@ -13,7 +13,12 @@ export const validateCreateBook = [
 
 export const validateUpdateBook = [
 	body("title").optional().notEmpty().withMessage("Title must be a non-empty string if provided"),
-	body("author").optional().notEmpty().withMessage("Author must be a non-empty string if provided"),
+	body("author")
+		.optional()
+		.isString()
+		.withMessage("Author must be a string if provided")
+		.notEmpty()
+		.withMessage("Author must be a non-empty string if provided"),
 	body("publicationDate").optional().isISO8601().withMessage("Publication date must be a valid date if provided"),
 	body("genres")
 		.optional()
